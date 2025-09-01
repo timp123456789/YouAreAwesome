@@ -32,15 +32,20 @@ struct ContentView: View {
             Button("Press Me!") {
                 let message1 = "You are Awesome!"
                 let message2 = "You are Great!!"
+                let imagetype1 = "hand.thumbsup"
+                let imagetype2 = "sun.max.fill"
                 
-                if message == message1 {
-                    message = message2
-                    imagetype = "hand.thumbsup"
-                }
-                else {
-                    message = message1
-                    imagetype = "sun.max"
-                }
+                message = (message == message1 ? message2 : message1)
+                imagetype = (imagetype == imagetype1 ? imagetype2 : imagetype1)
+                
+//                if message == message1 {
+//                    message = message2
+//                    imagetype = "hand.thumbsup"
+//                }
+//                else {
+//                    message = message1
+//                    imagetype = "sun.max"
+//                }
             }
                 }
             .font(.title2)
