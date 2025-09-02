@@ -9,17 +9,19 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var message = "You are Awesome!"
-    @State private var imagetype = "swift"
+    @State private var imagetype = ""
+    @State private var imagenum = 0
     var body: some View {
         
         VStack {
             
             Spacer()
             
-            Image(systemName: imagetype)
+            Image("image0")
                 .resizable()
                 .scaledToFit()
-                .foregroundStyle(.orange)
+                .clipShape(RoundedRectangle(cornerRadius: 30))
+                .shadow(radius: 30)
             
             
             Text(message)
@@ -36,7 +38,7 @@ struct ContentView: View {
                 let imagetype2 = "sun.max.fill"
                 
                 message = (message == message1 ? message2 : message1)
-                imagetype = (imagetype == imagetype1 ? imagetype2 : imagetype1)
+//                imagetype = (imagetype == imagetype1 ? imagetype2 : imagetype1)
                 
 //                if message == message1 {
 //                    message = message2
@@ -45,6 +47,12 @@ struct ContentView: View {
 //                else {
 //                    message = message1
 //                    imagetype = "sun.max"
+//                TODO: do something
+                imagenum += 1
+                if imagenum == 10{
+                    imagenum = 0
+                    
+                }
 //                }
             }
                 }
