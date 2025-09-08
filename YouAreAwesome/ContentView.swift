@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFAudio
 
 struct ContentView: View {
     @State private var message = ""
@@ -14,6 +15,10 @@ struct ContentView: View {
     @State private var messagenum = 0
     @State private var lastMessageNum = -1
     @State private var lastImageNum = -1
+    @State private var lastAudioNum = -1
+    @State private var audioPlayer: AVAudioPlayer!
+    let numberofImages = 4
+    let numberofAudios = 5
     var body: some View {
         
         VStack {
@@ -40,59 +45,80 @@ struct ContentView: View {
             
             Spacer ()
             
-
+            
             Button("Press Me!") {
                 let message1 = ["You are Awesome!", "You are Great!!", "You Are Fantastic", "Fabulous, Thats You?", "ewbfgfeigweiufhefuiwyguiyefwyefbgwfjehbjhbfewhbeuwfbkwefjbhwbfejhbef"]
-//                let message2 = "You are Great!!"
-//                let message3 = "Fabulous, Thats You?"
-                var messageNumber = Int.random(in: 0...message1.count-1)
-                while messageNumber == lastMessageNum {
-                    messageNumber = Int.random(in: 0...message1.count-1)
-                }
-                message = message1[messageNumber]
-                lastMessageNum = messageNumber
+                //                let message2 = "You are Great!!"
+                //                let message3 = "Fabulous, Thats You?"
                 
-                var imageNumber = Int.random(in: 0...3)
-                while imageNumber == lastImageNum {
-                    imageNumber = Int.random(in: 0...3)
-                }
-                imagetype = "image\(imageNumber)"
-                lastImageNum = imageNumber
-//                message = message1[messagenum]
-//                messagenum += 1
-//                if messagenum == message1.count {
-//                    messagenum = 0
-//                }
+                lastMessageNum = nonRepeatingRandom(lastNumber: lastMessageNum, upperBound: message.count-1)
+                message = message1[lastMessageNum]
                 
-//                message = (message == message1 ? message2 : message1)
-//                imagetype = "image\(Int.random(in: 0...3))"
+                lastImageNum = nonRepeatingRandom(lastNumber: lastImageNum, upperBound: numberofImages-1)
+                imagetype = "image\(lastImageNum)"
                 
-//                if message == message1[0] {
-//                    message = message1[1]
-//                } else if message == message1[1] {
-//                    message = message1[2]
-//                } else if message == message1[2] {
-//                    message = message1[3]
-//                }
-//                else {
-//                    message = message1[0]
-//                }
-
-//                TODO: do something
+                lastAudioNum = nonRepeatingRandom(lastNumber: lastAudioNum, upperBound: numberofAudios-1)
+                playSound(soundName: "sound\(lastAudioNum)")
+                
+                //                message = message1[messagenum]
+                //                messagenum += 1
+                //                if messagenum == message1.count {
+                //                    messagenum = 0
+                //                }
+                
+                //                message = (message == message1 ? message2 : message1)
+                //                imagetype = "image\(Int.random(in: 0...3))"
+                
+                //                if message == message1[0] {
+                //                    message = message1[1]
+                //                } else if message == message1[1] {
+                //                    message = message1[2]
+                //                } else if message == message1[2] {
+                //                    message = message1[3]
+                //                }
+                //                else {
+                //                    message = message1[0]
+                //                }
+                
+                //                TODO: do something
                 imagenum += 1
                 if imagenum == 4{
                     imagenum = 0
                     
                 }
-//                }
+
+                
+                //                }
             }
-                }
-            .font(.title2)
-            .tint(.orange)
-            .buttonStyle(.borderedProminent)
-            
+        }
+        .font(.title2)
+        .tint(.orange)
+        .buttonStyle(.borderedProminent)
+        
         .padding()
         
+    }
+    
+    func nonRepeatingRandom(lastNumber: Int, upperBound: Int) -> Int {
+        var newNumber: Int
+        repeat {
+            newNumber = Int.random(in: 0...upperBound)
+        } while newNumber == lastNumber
+        return newNumber
+        }
+    }
+    
+    func playSound(soundName: String){
+        guard let soundFile = NSDataAsset(name: soundName) else {
+            print("💔Could not read file names \(soundName)")
+            return
+        }
+        do {
+            audioPlayer = try AVAudioPlayer(data: soundFile.data)
+            audioPlayer.play()
+        } catch {
+            print("💔Error \(error.localizedDescription)")
+        }
     }
 }
 
